@@ -1,7 +1,21 @@
-﻿@{
+﻿@Model YoutubeAPI
+@{
     ViewBag.Title = "About";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
 
-<p>Use this area to provide additional information.</p>
+<body>
+    <h2>@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <div>
+        @Html.Encode(ViewData["postData"])
+    </div>
+    <div>
+        
+        
+    </div>
+</body>
