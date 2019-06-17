@@ -20,12 +20,19 @@ namespace WebApplication1.Controllers
 
         // ホーム画面から値を取得
         [HttpPost]
-        public ActionResult About(string param)
+        public async Task<ActionResult> About(string param)
         {
-            ViewData["PostData"] = param + "を検索しました。";
+            
             Models.YoutubeAPI youtube = new Models.YoutubeAPI();
-            Task t = youtube.IndexYoutube(param);
+            string comprehensiveText= null;
+            List<string> resultTask = await youtube.IndexYoutube(param);
 
+            foreach (var text in resultTask)
+            {
+                comprehensiveText += text;
+                comprehensiveText += "\r\n";
+            }
+            ViewData["PostData"] = param + "を検索しました。" + "結果：\t" + comprehensiveText;
             return View();
         }
 
