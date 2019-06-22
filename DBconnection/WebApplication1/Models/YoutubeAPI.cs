@@ -13,22 +13,30 @@ namespace WebApplication1.Models
 {
     public class YoutubeAPI
     {
-        public async Task<List<string>> IndexYoutube(string param)
+        public string ChatMessage { get; set; }
+
+        public string ChatName { get; set; }
+
+        public List<string> MessageList { get; set; }
+
+        public List<string> NameList { get; set; }
+
+
+        public async Task<LiveChatModelList> IndexYoutube(string param)
         {
-            List<string> testa = new List<string>();
+            LiveChatModelList testa = new LiveChatModelList();
             try
             {
                 var youtubeService = new YouTubeService(new BaseClientService.Initializer()
                 {
-                    ApiKey = "AIzaSyCYxw2GRHzN_UUP5kCOSBKuKAIfCdpd3ws"
+                    ApiKey = "AIzaSyARlEuRMw7DIRcgpuC-18TRTHqcwCxTaNc"
                 });
 
                 // 動画IDを入力
                 string liveChatId = GetLiveChatID(param, youtubeService);
                 testa = await GetLiveChatMessage(liveChatId, youtubeService, null);
-                 
             }
-            catch(Exception)
+            catch (Exception)
             {
             }
 
@@ -42,7 +50,7 @@ namespace WebApplication1.Models
         /// <param name="youTubeService"></param>
         /// <returns></returns>
         static public string GetLiveChatID(string videoId, YouTubeService youTubeService)
-        { 
+        {
             var videosList = youTubeService.Videos.List("LiveStreamingDetails");
 
             videosList.Id = videoId;
@@ -64,7 +72,7 @@ namespace WebApplication1.Models
         /// <param name="youtubeService"></param>
         /// <param name="nextPageToken"></param>
         /// <returns></returns>
-        static public async Task<List<string>> GetLiveChatMessage(string liveChatId, YouTubeService youtubeService, string nextPageToken)
+        static public async Task<LiveChatModelList> GetLiveChatMessage(string liveChatId, YouTubeService youtubeService, string nextPageToken)
         {
             string liveMsg = null;
             List<string> liveMessagesList = new List<string>();
@@ -73,33 +81,40 @@ namespace WebApplication1.Models
             liveChatRequest.PageToken = nextPageToken;
 
             Google.Apis.YouTube.v3.Data.LiveChatMessageListResponse liveChatResponse = liveChatRequest.Execute();
-            liveChatInfo lcInfo = new liveChatInfo();
+
+
+            LiveChatModelList list = new LiveChatModelList();
+
+            List<LiveChatModel> instantList = new List<LiveChatModel>();
 
             // ループ処理をして文字列型リストに格納
             foreach (var liveChat in liveChatResponse.Items)
             {
+                //Console.WriteLine($"{liveChat.Snippet.DisplayMessage},{liveChat.AuthorDetails.DisplayName}");
                 try
                 {
-                    //Console.WriteLine($"{liveChat.Snippet.DisplayMessage},{liveChat.AuthorDetails.DisplayName}");
+                    LiveChatModel lcInfo = new LiveChatModel();
+                    lcInfo.DspMessage = liveChat.Snippet.DisplayMessage;
+                    lcInfo.DspName = liveChat.AuthorDetails.DisplayName;
 
-                    lcInfo.dspMessage = liveChat.Snippet.DisplayMessage;
-                    lcInfo.dspName = liveChat.AuthorDetails.DisplayName;
+                    instantList.Add(lcInfo);
 
-                    //lcInfo.dspMessagesList.Add(lcInfo.dspMessage);
-                    //lcInfo.dspNamesList.Add(lcInfo.dspName);
-                    liveMsg = "名前【" + lcInfo.dspName + "】" + "\r\n" + "メッセージ『" +lcInfo.dspMessage + "』\t";
-                    liveMessagesList.Add(liveMsg);
                 }
-                catch
+                catch (Exception ext)
                 {
                     // 例外処理
+                    string errMessage = ext.Message;
+                    Console.Write(errMessage);
                 }
             }
-            await Task.Delay((int)liveChatResponse.PollingIntervalMillis);
+             list.ChatList = instantList;
+             await Task.Delay((int)liveChatResponse.PollingIntervalMillis);
 
-
-            //await GetLiveChatMessage(liveChatId, youtubeService, liveChatResponse.NextPageToken);
-            return liveMessagesList;
+            return list;
+           
         }
+        
     }
+    //await GetLiveChatMessage(liveChatId, youtubeService, liveChatResponse.NextPageToken);
+    //return liveMessagesList;
 }

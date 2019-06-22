@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
@@ -23,17 +24,14 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult> About(string param)
         {
             
-            Models.YoutubeAPI youtube = new Models.YoutubeAPI();
-            string comprehensiveText= null;
-            List<string> resultTask = await youtube.IndexYoutube(param);
+            YoutubeAPI youtube = new Models.YoutubeAPI();
 
-            foreach (var text in resultTask)
-            {
-                comprehensiveText += text;
-                comprehensiveText += "\r\n";
-            }
-            ViewData["PostData"] = param + "を検索しました。" + "結果：\t" + comprehensiveText;
-            return View();
+
+            LiveChatModelList asd = await youtube.IndexYoutube(param);
+
+            ViewData["PostData"] = "動画ID" + param + "を検索しました。";// + "結果：\t" + comprehensiveText;
+            ViewBag.Model = asd;
+            return View(asd);
         }
 
         /// <summary>

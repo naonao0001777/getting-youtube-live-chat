@@ -149,7 +149,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DBconnectionModel.cs" />
-    <Compile Include="Models\liveChatInfo.cs" />
+    <Compile Include="Models\LiveChatModel.cs" />
+    <Compile Include="Models\LiveChatModelList.cs" />
     <Compile Include="Models\YoutubeAPI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

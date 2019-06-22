@@ -1,4 +1,4 @@
-﻿@Model YoutubeAPI
+﻿@model WebApplication1.Models.LiveChatModelList
 @{
     ViewBag.Title = "About";
 }
@@ -13,5 +13,34 @@
 
     <div>
         @Html.Encode(ViewData["postData"])
+    </div>
+    <div class="table-responsive table-striped">
+        <table border="1" class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="">#No.</th>
+                    <th>名前</th>
+                    <th>メッセージ</th>
+                </tr>
+            </thead>
+            @for (int i = 0; i < Model.ChatList.Count(); i++)
+            {
+                int count;
+                count = i + 1;
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => count)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => Model.ChatList[i].DspName)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => Model.ChatList[i].DspMessage)
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
     </div>
 </body>
