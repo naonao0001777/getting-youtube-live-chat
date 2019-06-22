@@ -34,6 +34,7 @@ namespace WebApplication1.Models
 
                 // 動画IDを入力
                 string liveChatId = GetLiveChatID(param, youtubeService);
+
                 testa = await GetLiveChatMessage(liveChatId, youtubeService, null);
             }
             catch (Exception)
@@ -74,7 +75,7 @@ namespace WebApplication1.Models
         /// <returns></returns>
         static public async Task<LiveChatModelList> GetLiveChatMessage(string liveChatId, YouTubeService youtubeService, string nextPageToken)
         {
-            string liveMsg = null;
+
             List<string> liveMessagesList = new List<string>();
 
             var liveChatRequest = youtubeService.LiveChatMessages.List(liveChatId, "snippet,authorDetails");

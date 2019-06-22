@@ -23,14 +23,17 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<ActionResult> About(string param)
         {
-            
+            bool errFlg = false;
             YoutubeAPI youtube = new Models.YoutubeAPI();
 
-
             LiveChatModelList asd = await youtube.IndexYoutube(param);
+            if(asd.ChatList == null)
+            {
+                errFlg = true;
+            }
+            ViewData["PostData"] = "動画ID：" + param + "を検索しました。";// + "結果：\t" + comprehensiveText;
+            ViewBag.errFlg = errFlg;
 
-            ViewData["PostData"] = "動画ID" + param + "を検索しました。";// + "結果：\t" + comprehensiveText;
-            ViewBag.Model = asd;
             return View(asd);
         }
 
