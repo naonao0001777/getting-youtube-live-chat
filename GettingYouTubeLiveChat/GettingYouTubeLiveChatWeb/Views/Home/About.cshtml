@@ -17,12 +17,12 @@
     @if (!ViewBag.errFlg)
     {
         <div class="table-responsive">
-            <table border="1" class="table table-hover table-condensed">
+            <table border="1" class="table table-striped table-condensed">
                 <thead>
                     <tr class="bg-primary">
                         <th class="">#No.</th>
-                        <th>名前</th>
-                        <th>メッセージ</th>
+                        <th>ユーザ名</th>
+                        <th>コメント</th>
                     </tr>
                 </thead>
 
@@ -39,7 +39,7 @@
                                 @Html.DisplayFor(model => Model.ChatList[i].DspName)
                             </td>
                             <td>
-                                @Html.EditorFor(model => Model.ChatList[i].DspMessage)
+                                @Html.DisplayFor(model => Model.ChatList[i].DspMessage)
                             </td>
                         </tr>
                     </tbody>
