@@ -11,5 +11,7 @@ namespace WebApplication1.Models
 
         public string DspName{get;set;}
 
+        public string User { get; set; }
+
     }
 }

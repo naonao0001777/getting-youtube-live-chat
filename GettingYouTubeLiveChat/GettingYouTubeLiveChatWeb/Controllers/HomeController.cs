@@ -61,10 +61,15 @@ namespace WebApplication1.Controllers
         /// サンプル画面3
         /// </summary>
         /// <returns></returns>
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult Contact(string aa)
         {
             ViewBag.Message = "Your contact page.";
-
+            
+            if (aa=="aaa")
+            {
+                System.Diagnostics.Process.Start(@"C:\temp");
+            }
             return View();
         }
     }
