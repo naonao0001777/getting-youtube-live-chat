@@ -13,12 +13,24 @@ namespace WebApplication1.Models
 {
     public class YoutubeAPI
     {
+        /// <summary>
+        ///  メッセージ
+        /// </summary>
         public string ChatMessage { get; set; }
 
+        /// <summary>
+        /// 名前
+        /// </summary>
         public string ChatName { get; set; }
 
+        /// <summary>
+        /// メッセージリスト
+        /// </summary>
         public List<string> MessageList { get; set; }
-
+        
+        /// <summary>
+        /// 名前リスト
+        /// </summary>
         public List<string> NameList { get; set; }
 
 

@@ -11,7 +11,7 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         /// <summary>
-        /// 
+        /// 検索画面
         /// </summary>
         /// <returns></returns>
         public ActionResult Home()
@@ -19,22 +19,30 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        // ホーム画面から値を取得
+        /// <summary>
+        /// 結果画面
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> About(string param)
+        public async Task<ActionResult> Result(string param)
         {
             bool errFlg = false;
-            YoutubeAPI youtube = new Models.YoutubeAPI();
 
-            LiveChatModelList asd = await youtube.IndexYoutube(param);
-            if(asd.ChatList == null)
+            YoutubeAPI youtube = new YoutubeAPI();
+
+            LiveChatModelList chatModelList = await youtube.IndexYoutube(param);
+
+            if (chatModelList.ChatList == null)
             {
                 errFlg = true;
             }
+
             ViewData["PostData"] = "動画ID：" + param + "を検索しました。";// + "結果：\t" + comprehensiveText;
+
             ViewBag.errFlg = errFlg;
 
-            return View(asd);
+            return View(chatModelList);
         }
 
         /// <summary>
@@ -47,29 +55,40 @@ namespace WebApplication1.Controllers
         }
 
         /// <summary>
-        /// サンプル画面2
+        /// コメント検索結果画面
         /// </summary>
         /// <returns></returns>
-        public ActionResult About()
+        public ActionResult CommentResult(string param)
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "コメント検索結果";
+            LiveChatModelList modelList = new LiveChatModelList();
 
-            return View();
+            List<LiveChatModel> resultList = new List<LiveChatModel>();
+            
+            foreach (LiveChatModel model in modelList.ChatList)
+            {
+                if (model.DspMessage.Contains(param))
+                {
+                    resultList.Add(model);
+                }
+                
+            }
+            return View(resultList);
         }
 
         /// <summary>
-        /// サンプル画面3
+        /// このサイトについて画面
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Contact(string aa)
+        public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
             
-            if (aa=="aaa")
-            {
-                System.Diagnostics.Process.Start(@"C:\temp");
-            }
+            //if (aa=="aaa")
+            //{
+            //    System.Diagnostics.Process.Start(@"C:\temp");
+            //}
             return View();
         }
     }
