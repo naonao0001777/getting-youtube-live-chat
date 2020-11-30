@@ -14,3 +14,6 @@ YouTubeIDとは、` ttps://www.youtube.com/watch?v=UAAWEX6g590`の`UAAWEX6g590`�
 ## 要件
 YouTubeAPI  
 .NETランタイム
+
+## ライセンス
+This software is released under the MIT License, see LICENSE.txt.
