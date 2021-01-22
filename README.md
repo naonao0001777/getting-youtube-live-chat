@@ -1,8 +1,9 @@
 # youtube-live-chat-geter
 
 # TL;DR
-YouTubeのライブ配信(アーカイブを除く)で流れたチャットを70行分、ユーザー名と、コメントを取得する基本的なシステム。.NETアプリケーション
+YouTubeのライブ配信(アーカイブを除く)で流れたチャットを70行分、ユーザー名と、コメントを取得する基本的なシステム。.NETアプリケーション  
 [Webサイトはこちら](http://youtube-live-chat-getter.azurewebsites.net/)
+
 # DEMO
 ![GettingYoutubeLiveChat](https://user-images.githubusercontent.com/46675984/101369694-f1cac580-38eb-11eb-9ae8-35eba46132f2.gif)
 
