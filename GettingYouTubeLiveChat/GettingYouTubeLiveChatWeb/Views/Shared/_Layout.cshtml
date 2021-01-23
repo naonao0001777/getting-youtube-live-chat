@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - マイ ASP.NET アプリケーション</title>
@@ -21,7 +21,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("動画ID検索", "Home", "Home")</li>
+                    <li>@Html.ActionLink("コメント取得画面", "Home", "Home")</li>
                     @*<li>@Html.ActionLink("詳細", "About", "Home")</li>*@
                     <li>@Html.ActionLink("このサイトについて", "Contact", "Home")</li>
                 </ul>
@@ -32,7 +32,9 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - マイ ASP.NET アプリケーション</p>
+            <div class="text-right">
+                <p>&copy; @DateTime.Now.Year <a href="https://github.com/naonao0001777">Created by nao</a></p>
+            </div>
         </footer>
     </div>
 
