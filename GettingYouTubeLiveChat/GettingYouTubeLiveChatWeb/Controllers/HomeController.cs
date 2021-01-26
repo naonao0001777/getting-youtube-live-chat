@@ -82,7 +82,7 @@ namespace WebApplication1.Controllers
         /// <returns></returns>
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "このサイトの制作者";
 
             return View();
         }

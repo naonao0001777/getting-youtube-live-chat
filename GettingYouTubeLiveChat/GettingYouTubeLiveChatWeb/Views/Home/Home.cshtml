@@ -8,14 +8,15 @@
     <meta name="viewport" content="width=device-width" />
 </head>
 <body>
+    <div class="center-block">
+        <center>
+            <h1>YouTubeのコメントを取得するWebサイト</h1>
+        </center>
+    </div>
+    <br><br><br><br><br><br><br><br>
     <div>
         @using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
         {
-            <div class="center-block">
-                <center>
-                    <h1>YouTubeのコメントを取得するWebサイト</h1>
-                </center>
-            </div>
             <div class="text-center">
                 <span class="media-middle">
                     @Html.TextBox("param", "", new { maxlength = 25 })
