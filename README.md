@@ -18,5 +18,12 @@ YouTubeIDとは、` https://www.youtube.com/watch?v=UAAWEX6g590`の`UAAWEX6g590`
 # 作成者
 nao
 
+# スキル
+* C#
+* ASP.NET
+* Bootstrap
+* jQuery
+* Azure
+
 # ライセンス
 This software is released under the MIT License, see LICENSE.md.
