@@ -46,15 +46,6 @@ namespace WebApplication1.Controllers
         }
 
         /// <summary>
-        /// サンプル画面
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        /// <summary>
         /// コメント検索結果画面
         /// </summary>
         /// <returns></returns>

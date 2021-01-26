@@ -11,19 +11,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
 </head>
 <body>
+    <br /><br /><br />
     <div class="center-block font-google">
         <center>
-            <h1 style="font-size:50px">YouTubeのコメントを取得するWebサイト</h1>
+            <h1 style="font-size:70px">YouTubeのコメントを取得する<br />Webサイト</h1>
         </center>
     </div>
-    <br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br>
     <div>
         @using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
         {
             <div class="text-center font-google">
                 <span>
-                    @Html.TextBox("param","", new { maxlength = 25})
-                    <input type="submit" value="コメントを取得"/>
+                    @Html.TextBox("param", "", new { maxlength = 25 })
+                    <input type="submit" value="コメントを取得" />
                 </span>
             </div>
         }
