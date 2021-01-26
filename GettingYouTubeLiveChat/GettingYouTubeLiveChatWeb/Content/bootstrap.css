@@ -4,13 +4,15 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+
 html {
-  font-family: sans-serif;
-  -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
+    font-family: 'Potta One' !important;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
 body {
-  margin: 0;
+    margin: 0;
+    font-family: 'Potta One';
 }
 article,
 aside,
@@ -261,10 +263,11 @@ th {
   }
 }
 @font-face {
-  font-family: 'Glyphicons Halflings';
-
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+    font-family: 'Potta One';
+    src: url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap') format('woff') ,url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap') format('svg'), url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap') format('opentype'), url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'), format('embedded-opentype') url(../fonts/PottaOne-Regular.ttf) format('truetype')
+}
+.font-google{
+    font-family: 'Potta One';
 }
 .glyphicon {
   position: relative;

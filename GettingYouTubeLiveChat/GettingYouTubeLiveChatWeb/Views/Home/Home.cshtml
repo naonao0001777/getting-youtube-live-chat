@@ -6,21 +6,24 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="center-block">
+    <div class="center-block font-google">
         <center>
-            <h1>YouTubeのコメントを取得するWebサイト</h1>
+            <h1 style="font-size:50px">YouTubeのコメントを取得するWebサイト</h1>
         </center>
     </div>
     <br><br><br><br><br><br><br><br>
     <div>
         @using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
         {
-            <div class="text-center">
-                <span class="media-middle">
-                    @Html.TextBox("param", "", new { maxlength = 25 })
-                    <input type="submit" value="コメントを取得" />
+            <div class="text-center font-google">
+                <span>
+                    @Html.TextBox("param","", new { maxlength = 25})
+                    <input type="submit" value="コメントを取得"/>
                 </span>
             </div>
         }
