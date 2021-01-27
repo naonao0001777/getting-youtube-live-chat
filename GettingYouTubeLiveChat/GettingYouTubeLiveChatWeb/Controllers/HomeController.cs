@@ -29,8 +29,10 @@ namespace WebApplication1.Controllers
         {
             bool errFlg = false;
 
+            // YouTubeAPI共通メソッド
             YoutubeAPI youtube = new YoutubeAPI();
 
+            // APIサービス基本メソッド
             LiveChatModelList chatModelList = await youtube.IndexYoutube(param);
 
             if (chatModelList.ChatList == null)
@@ -38,7 +40,7 @@ namespace WebApplication1.Controllers
                 errFlg = true;
             }
 
-            ViewData["PostData"] = "動画ID：" + param + "を検索しました。";// + "結果：\t" + comprehensiveText;
+            ViewData["PostData"] = param;
 
             ViewBag.errFlg = errFlg;
 
