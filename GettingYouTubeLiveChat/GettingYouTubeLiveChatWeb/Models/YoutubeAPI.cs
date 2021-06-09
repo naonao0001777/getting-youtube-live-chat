@@ -40,9 +40,9 @@ namespace WebApplication1.Models
         /// <summary>
         /// APIキー
         /// </summary>
-        private const string API_KEY = "AIzaSyARlEuRMw7DIRcgpuC-18TRTHqcwCxTaNc"; 
+        private const string API_KEY = "AIzaSyARlEuRMw7DIRcgpuC-18TRTHqcwCxTaNc";
 
-        public async Task<LiveChatModelList> IndexYoutube(string param)
+        public async Task<LiveChatModelList> IndexYoutube(string param, string quantity)
         {
             LiveChatModelList lcmL = new LiveChatModelList();
             try
@@ -57,7 +57,7 @@ namespace WebApplication1.Models
                 string liveChatId = GetLiveChatID(param, youtubeService);
 
                 // 取得したメッセージを返す
-                lcmL = await GetLiveChatMessage(liveChatId, youtubeService, null);
+                lcmL = await GetLiveChatMessage(liveChatId, youtubeService, null, quantity);
             }
             catch (Exception e)
             {
@@ -97,7 +97,7 @@ namespace WebApplication1.Models
         /// <param name="youtubeService"></param>
         /// <param name="nextPageToken"></param>
         /// <returns></returns>
-        static public async Task<LiveChatModelList> GetLiveChatMessage(string liveChatId, YouTubeService youtubeService, string nextPageToken_)
+        static public async Task<LiveChatModelList> GetLiveChatMessage(string liveChatId, YouTubeService youtubeService, string nextPageToken_, string quantity)
         {
             // 結果を入れるリスト
             LiveChatModelList list = new LiveChatModelList();
@@ -107,7 +107,7 @@ namespace WebApplication1.Models
 
             // ページトークンを取得する
             var liveChatRequest = youtubeService.LiveChatMessages.List(liveChatId, "snippet,authorDetails");
-
+            maxCountCreatePageToken = int.Parse(quantity)/75;
             // 最終ページトークンまで再帰的な取得をする
             for (int i = 0; i < maxCountCreatePageToken; i++)
             {

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Home";
 }
 <!DOCTYPE html>
@@ -9,6 +8,23 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <style type="text/css">
+        .loading {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0,0,0,.5);
+            background-image: url(../../Content/img/Blocks-1s-293px.gif);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            background-size: 100px 100px;
+        }
+    </style>
 </head>
 <body>
     <br /><br /><br />
@@ -17,18 +33,58 @@
             <h1 style="font-size:70px">YouTubeのコメントを取得する<br />解析サイト</h1>
         </center>
     </div>
-    <br><br><br><br><br><br>
-    <div>
-        @using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
-        {
-            <div class="text-center font-google">
-                <span>
-                    @Html.TextBox("param", "", new { maxlength = 25 })
-                    <input type="submit" value="コメントを取得" />
-                </span>
-            </div>
-        }
+    <br><br><br><br>
+    <div class="center-block">
+        @*@using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
+        {*@
+            <form method="post" action="/Home/Result">
+                <center>
+                    <div class="center-block">
+                        <h4>取得数</h4>
+                        <span>
+                            @*@Html.Hidden("quantity", "")*@
+                            <input type="range" id="range" value="750" name="quantity" min="0" max="1500" step="75">
+                            <span id="quant">750</span>
+                        </span>
+                    </div>
+                </center>
+                <br /><br />
+                <div class="text-center">
+                    <span>
+                        @*@Html.TextBox("param", "", new { maxlength = 25 })*@
+                        <input type="text" maxlength="25" name="param"/>
+                        <input type="submit" value="コメントを取得" onclick="buttonClick" id="button1" />
+                    </span>
+                </div>
+            </form>
+        @*}*@
     </div>
+    <div class="loading hide"></div>
 </body>
 </html>
-
+<script type="text/javascript">
+    // ローディング
+    $(function buttonClick() {
+        $('#button1').on('click', function () {
+            $.ajax({
+                url: 'Result',
+                type: 'POST',
+                beforeSend: function () {
+                    $('.loading').removeClass('hide');
+                }
+            }).done(function () {
+                $('.loading').addClass('hide');
+            })
+        }
+        )
+    })
+    // レンジバー
+    var elem = document.getElementById('range');
+    var target = document.getElementById('quant');
+    var rangeValue = function (elem, target) {
+        return function (evt) {
+            target.innerHTML = range.value;
+        }
+    }
+    elem.addEventListener('input', rangeValue(elem, target));
+</script>

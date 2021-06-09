@@ -47,15 +47,16 @@
             </table>
         </div>
     }
-    <div>
-        @using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
-        {
-            <input type="hidden" name="param" value="@ViewData["postData"]">
-
-            <input type="submit" id="submitId" value="再取得" name="param" />
-        }
-        <button type="button" class="btn btn-primary w-auto mt-2" name="back" value="back" onclick="history.back()">
-            戻る
-        </button>
-    </div>
+        <div>
+            @using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
+            {
+                <input type="hidden" name="param" value="@ViewData["postData"]">
+                <input type="hidden" name="quantity" value="@ViewData["PostQuantity"]">
+                @*<input type="hidden" name="count" value=@ViewBag.count>*@
+                <input type="submit" id="submitId" value="再取得" name="param" />
+            }
+            <button type="button" class="btn btn-primary w-auto mt-2" name="back" value="back" onclick="history.back()">
+                戻る
+            </button>
+        </div>
 </body>

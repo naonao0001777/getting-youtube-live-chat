@@ -25,7 +25,7 @@ namespace WebApplication1.Controllers
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> Result(string param)
+        public async Task<ActionResult> Result(string param, string quantity, string count="0")
         {
             bool errFlg = false;
 
@@ -33,7 +33,7 @@ namespace WebApplication1.Controllers
             YoutubeAPI youtube = new YoutubeAPI();
 
             // APIサービス基本メソッド
-            LiveChatModelList chatModelList = await youtube.IndexYoutube(param);
+            LiveChatModelList chatModelList = await youtube.IndexYoutube(param,quantity);
 
             if (chatModelList.ChatList == null)
             {
@@ -41,9 +41,10 @@ namespace WebApplication1.Controllers
             }
 
             ViewData["PostData"] = param;
+            ViewData["PostQuantity"] = quantity;
 
             ViewBag.errFlg = errFlg;
-
+            ViewBag.count = count;
             return View(chatModelList);
         }
 
