@@ -67,7 +67,7 @@
     $(function buttonClick() {
         $('#button1').on('click', function () {
             $.ajax({
-                url: 'HomeController.cs',
+                url: '../HomeController.cs',
                 type: 'POST',
                 beforeSend: function () {
                     $('.loading').removeClass('hide');
