@@ -54,7 +54,7 @@
                     <span>
                         @*@Html.TextBox("param", "", new { maxlength = 25 })*@
                         <input type="text" maxlength="25" name="param"/>
-                        <input type="submit" value="コメントを取得" onclick="buttonClick" id="button1" />
+                        <input type="submit" value="コメントを取得" id="cmtButton" />
                     </span>
                 </div>
             </form>
@@ -65,10 +65,10 @@
 </html>
 <script type="text/javascript">
     // ローディング
-    $(function buttonClick() {
-        $('#button1').on('click', function () {
+    $(function () {
+        $('#cmtButton').on('click', function () {
             $.ajax({
-                url: '../HomeController.cs',
+                url: '../../Controller/HomeController.cs',
                 type: 'POST',
                 beforeSend: function () {
                     $('.loading').removeClass('hide');

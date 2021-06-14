@@ -3,13 +3,14 @@
     ViewBag.Title = "Result";
 }
 <!DOCTYPE html>
+<html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.0/js/jquery.tablesorter.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/extras/jquery.metadata.min.js"></script>*@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/extras/jquery.metadata.min.js"></script>*@
     @*<script src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/dataTables.bootstrap.min.js"></script>*@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/dataTables.bootstrap.min.js"></script>*@
 
     <style type="text/css">
         .loading {
@@ -27,9 +28,7 @@
             z-index: 9999;
         }
     </style>
-
 </head>
-
 <body>
     <h2>結果</h2>
     <h3>@ViewBag.Message</h3>
@@ -37,6 +36,11 @@
     <div>
         @Html.Encode(ViewData["postData"])を検索しました。
     </div>
+    <div>
+        <input type="text" id="searchTxt" />
+        <input type="button" id="searchBtn" value="検索" />
+    </div>
+
     @if (!ViewBag.errFlg)
     {
         int count;
@@ -70,29 +74,32 @@
             </table>
         </div>
     }
-        <div>
-            @using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
-            {
-                <input type="hidden" name="param" value="@ViewData["postData"]">
-                <input type="hidden" name="quantity" value="@ViewData["PostQuantity"]">
-                @*<input type="hidden" name="count" value=@ViewBag.count>*@
-                <input type="submit" value="再取得" name="param" id="button1" />
-            }
-            <button type="button" class="btn btn-primary w-auto mt-2" name="back" value="back" onclick="history.back()">
-                戻る
-            </button>
-            <button type="button" class="btn btn-primary w-auto mt-2" name="forward" value="forward" onclick="history.forward()">
-                次へ
-            </button>
-        </div>
+    <div>
+        @*@using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
+            {*@
+        <form method="post" action="/Home/Result">
+            <input type="hidden" name="param" value="@ViewData["postData"]">
+            <input type="hidden" name="quantity" value="@ViewData["PostQuantity"]">
+            @*<input type="hidden" name="count" value=@ViewBag.count>*@
+            <input type="submit" value="再取得" name="param" id="reSearchBtn" />
+        </form>
+        @*}*@
+        <button type="button" class="btn btn-primary w-auto mt-2" name="back" value="back" onclick="history.back()">
+            戻る
+        </button>
+        <button type="button" class="btn btn-primary w-auto mt-2" name="forward" value="forward" onclick="history.forward()">
+            次へ
+        </button>
+    </div>
     <div class="loading hide"></div>
 </body>
+</html>
 <script type="text/javascript">
     // ローディング
-    $(function buttonClick() {
-        $('#button1').on('click', function () {
+    $(function () {
+        $('#reSearchBtn').on('click', function () {
             $.ajax({
-                url: './Result.cshtml',
+                url: '../../Controller/HomeController.cs',
                 type: 'POST',
                 beforeSend: function () {
                     $('.loading').removeClass('hide');
@@ -100,8 +107,21 @@
             }).done(function () {
                 $('.loading').addClass('hide');
             })
-        }
-        )
+        })
+    })
+    // テーブル内を検索する
+    $(function () {
+        $('#searchBtn').bind('click', function () {
+            var re = new RegExp($('#searchTxt').val());
+            $('#table tbody tr').each(function () {
+                var txt = $(this).find("td:eq(2)").text();
+                if (txt.match(re) != null) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            })
+        })
     })
     //// デフォルトの設定を変更
     //$.extend($.fn.dataTable.defaults, {
