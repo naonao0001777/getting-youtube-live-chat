@@ -6,7 +6,7 @@ YouTubeのライブ配信(アーカイブを除く)で流れたチャットを70
 [YouTubeライブのコメントを取得するWebサイトへ移動](https://youtube-live-chat-getter.azurewebsites.net)
 
 # DEMO
-![youtubecomment_kai](https://user-images.githubusercontent.com/46675984/121387383-999d7a80-c985-11eb-8913-7f2fd8c3580d.gif)
+![youtubecomment_20210614](https://user-images.githubusercontent.com/46675984/121889795-9ecb4280-cd54-11eb-832e-558cb8cc094f.gif)
 
 
 # 使い方
