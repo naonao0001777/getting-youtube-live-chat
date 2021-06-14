@@ -27,6 +27,21 @@
             background-size: 100px 100px;
             z-index: 9999;
         }
+        /*#searchclear {
+            position: absolute;
+            right: 5px;
+            top: 0;
+            bottom: 0;
+            height: 14px;
+            margin: auto;
+            font-size: 14px;
+            cursor: pointer;
+            color: floralwhite;
+            background-image: url(../../Content/img/batu_icon.png);
+            background-repeat: no-repeat;
+            background-position: right;
+            background-size: 14px 14px;
+        }*/
     </style>
 </head>
 <body>
@@ -36,9 +51,24 @@
     <div>
         @Html.Encode(ViewData["postData"])を検索しました。
     </div>
+    <br>
     <div>
-        <input type="text" id="searchTxt" />
-        <input type="button" id="searchBtn" value="検索" />
+        <span>テーブルを検索</span>
+    </div>
+    <div>
+        <span>
+            <input type="text" id="searchTxt" placeholder="キーワード入力" />
+        </span>
+        <span>
+            <input type="button" id="searchComment" value="コメント検索" />
+        </span>
+
+        <span>
+            <input type="button" id="searchUser" value="ユーザー検索" />
+        </span>
+        <span>
+            <input type="button" id="clear" value="クリア" />
+        </span>
     </div>
 
     @if (!ViewBag.errFlg)
@@ -111,7 +141,7 @@
     })
     // テーブル内を検索する
     $(function () {
-        $('#searchBtn').bind('click', function () {
+        $('#searchComment').bind('click', function () {
             var re = new RegExp($('#searchTxt').val());
             $('#table tbody tr').each(function () {
                 var txt = $(this).find("td:eq(2)").text();
@@ -122,7 +152,30 @@
                 }
             })
         })
+
+        $('#searchUser').bind('click', function () {
+            var re = new RegExp($('#searchTxt').val());
+            $('#table tbody tr').each(function () {
+                var txt = $(this).find("td:eq(1)").text();
+                if (txt.match(re) != null) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            })
+        })
+        $('#clear').bind('click', function () {
+            $('#table tbody tr').each(function () {
+                $(this).show();
+            })
+        })
     })
+
+    $(function () {
+        $('#clear').click(function () {
+            $(document).find('#searchTxt').val('');
+        });
+    });
     //// デフォルトの設定を変更
     //$.extend($.fn.dataTable.defaults, {
     //    language: {
