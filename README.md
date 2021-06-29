@@ -19,11 +19,11 @@ YouTubeIDとは、` https://www.youtube.com/watch?v=UAAWEX6g590`の`UAAWEX6g590`
 nao
 
 # スキル
-* C#
-* ASP.NET
-* Bootstrap
-* jQuery
-* Azure
+* Programming:C#
+* FrameWork:ASP.NET
+* FrameWork(CSS):Bootstrap
+* FrameWork(js):jQuery
+* Cloud:Azure
 
 # ライセンス
 This software is released under the MIT License, see LICENSE.md.
