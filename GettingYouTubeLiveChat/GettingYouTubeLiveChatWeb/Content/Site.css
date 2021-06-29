@@ -37,3 +37,6 @@ textarea {
     font-family: 'Potta One',cursive;
     max-width: 280px;
 }
+#reSearchBtn{
+    border-radius:100%;
+}

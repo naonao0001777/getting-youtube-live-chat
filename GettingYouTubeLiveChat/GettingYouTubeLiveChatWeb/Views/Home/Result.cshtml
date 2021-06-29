@@ -20,7 +20,7 @@
             bottom: 0;
             left: 0;
             background: rgba(0,0,0,.5);
-            background-image: url(https://user-images.githubusercontent.com/46675984/123852276-14d7c800-d957-11eb-88f4-515d290b6597.gif);
+            background-image: url('https://user-images.githubusercontent.com/46675984/123852276-14d7c800-d957-11eb-88f4-515d290b6597.gif');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-position: center center;
@@ -104,23 +104,20 @@
             </table>
         </div>
     }
-    <div>
-        @*@using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
-            {*@
-        <form method="post" action="/Home/Result">
-            <input type="hidden" name="param" value="@ViewData["postData"]">
-            <input type="hidden" name="quantity" value="@ViewData["PostQuantity"]">
-            @*<input type="hidden" name="count" value=@ViewBag.count>*@
-            <input type="submit" value="再取得" name="param" id="reSearchBtn" />
-        </form>
-        @*}*@
-        <button type="button" class="btn btn-primary w-auto mt-2" name="back" value="back" onclick="history.back()">
-            戻る
-        </button>
-        <button type="button" class="btn btn-primary w-auto mt-2" name="forward" value="forward" onclick="history.forward()">
-            次へ
-        </button>
-    </div>
+        <div style="padding-bottom:50px;padding-top:10px;" class="text-center">
+            <button type="button" class="btn btn-primary" name="back" value="back" onclick="history.back()" style="width:50px;height:50px;">
+                戻る
+            </button>
+            <form method="post" action="/Home/Result" style="display: inline">
+                <input type="hidden" name="param" value="@ViewData["postData"]">
+                <input type="hidden" name="quantity" value="@ViewData["PostQuantity"]">
+                @*<input type="hidden" name="count" value=@ViewBag.count>*@
+                <input type="submit" value="再取得" name="param" id="reSearchBtn" style="border-radius:100%; text-align:center; width:60px;height:60px; background-color:Highlight; color:white;" />
+            </form>
+            <button type="button" class="btn btn-primary" name="forward" value="forward" onclick="history.forward()" style="width:50px;height:50px;">
+                次へ
+            </button>
+        </div>
     <div class="loading hide"></div>
 </body>
 </html>
