@@ -11,6 +11,10 @@ namespace WebApplication1.Models
 
         public string DspName{get;set;}
 
-        public string User { get; set; }
+        public string ChannelUrl { get; set; }
+
+        public string ProfileImageUrl { get; set; }
+
+        public DateTime? ChatDateTime { get; set; }
     }
 }

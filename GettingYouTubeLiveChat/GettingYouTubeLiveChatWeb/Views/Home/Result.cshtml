@@ -27,6 +27,10 @@
             background-size: 100px 100px;
             z-index: 9999;
         }
+        .userThumbnail{
+            text-decoration: none;
+        }
+
         /*#searchclear {
             position: absolute;
             right: 5px;
@@ -79,6 +83,7 @@
                 <thead>
                     <tr class="bg-primary">
                         <th>#No.</th>
+                        <th>投稿した時刻</th>
                         <th>ユーザ名</th>
                         <th>コメント</th>
                     </tr>
@@ -93,6 +98,10 @@
                                 @Html.DisplayFor(model => count)
                             </td>
                             <td>
+                                @Html.DisplayFor(model => Model.ChatList[i].ChatDateTime)
+                            </td>
+                            <td class="userThumbnail">
+                                <a href="@Html.DisplayFor(model => Model.ChatList[i].ChannelUrl)" target="_blank" rel="noopener noreferrer"><img src="@Html.DisplayFor(model => Model.ChatList[i].ProfileImageUrl)" width="30" height="30" alt="Usersthumbnail"></a>
                                 @Html.DisplayFor(model => Model.ChatList[i].DspName)
                             </td>
                             <td>
@@ -138,7 +147,7 @@
     })
     // テーブル内を検索する
     $(function () {
-        $('#searchComment').bind('click', function () {
+        $('#searchUser').bind('click', function () {
             var re = new RegExp($('#searchTxt').val());
             $('#table tbody tr').each(function () {
                 var txt = $(this).find("td:eq(2)").text();
@@ -150,10 +159,10 @@
             })
         })
 
-        $('#searchUser').bind('click', function () {
+        $('#searchComment').bind('click', function () {
             var re = new RegExp($('#searchTxt').val());
             $('#table tbody tr').each(function () {
-                var txt = $(this).find("td:eq(1)").text();
+                var txt = $(this).find("td:eq(3)").text();
                 if (txt.match(re) != null) {
                     $(this).show();
                 } else {
@@ -161,6 +170,7 @@
                 }
             })
         })
+
         $('#clear').bind('click', function () {
             $('#table tbody tr').each(function () {
                 $(this).show();

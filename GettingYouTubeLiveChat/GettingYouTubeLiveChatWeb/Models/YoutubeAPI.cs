@@ -105,17 +105,27 @@ namespace WebApplication1.Models
             // 一時的なリスト
             List<LiveChatModel> instantList = new List<LiveChatModel>();
 
-            // ページトークンを取得する
+            // レスポンスリスト
+            Google.Apis.YouTube.v3.Data.LiveChatMessageListResponse liveChatResponse;
+
+            // LiveChatMessageトークンを取得する
             var liveChatRequest = youtubeService.LiveChatMessages.List(liveChatId, "snippet,authorDetails");
+            
             maxCountCreatePageToken = int.Parse(quantity)/75;
+
             // 最終ページトークンまで再帰的な取得をする
             for (int i = 0; i < maxCountCreatePageToken; i++)
             {
-                // 初回はNULLを渡す
+                // 次回ページトークン
                 liveChatRequest.PageToken = nextPageToken_;
+                
+                // リクエストする
+                liveChatResponse = liveChatRequest.Execute();
 
-                // リクエスト実行し、レスポンス
-                Google.Apis.YouTube.v3.Data.LiveChatMessageListResponse liveChatResponse = liveChatRequest.Execute();
+                if (liveChatResponse.Items.Count == 0)
+                {
+                    break;
+                }
 
                 // 再帰的にチャットを取得
                 foreach (var liveChat in liveChatResponse.Items)
@@ -125,7 +135,10 @@ namespace WebApplication1.Models
                         LiveChatModel lcInfo = new LiveChatModel();
                         lcInfo.DspMessage = liveChat.Snippet.DisplayMessage;
                         lcInfo.DspName = liveChat.AuthorDetails.DisplayName;
-
+                        lcInfo.ChannelUrl = liveChat.AuthorDetails.ChannelUrl;
+                        lcInfo.ChatDateTime = liveChat.Snippet.PublishedAt;
+                        lcInfo.ProfileImageUrl = liveChat.AuthorDetails.ProfileImageUrl;
+                        
                         instantList.Add(lcInfo);
 
                     }
@@ -141,10 +154,9 @@ namespace WebApplication1.Models
                 // YouTubeのサービスから反応が返ってくるまで待ち
                 await Task.Delay((int)liveChatResponse.PollingIntervalMillis);
 
-                // 次回のページトークンを確保する
-                nextPageToken_ = liveChatRequest.PageToken;
+                // ページトークンを確保する（初回はnull）
+                nextPageToken_ = liveChatResponse.NextPageToken;
             }
-
             return list;
 
         }
