@@ -25,15 +25,17 @@ namespace WebApplication1.Controllers
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> Result(string param, string quantity, string count="0")
+        public async Task<ActionResult> Result(string param, string quantity, string count = "0")
         {
             bool errFlg = false;
+
+            string service = "Live";
 
             // YouTubeAPI共通メソッド
             YoutubeAPI youtube = new YoutubeAPI();
 
             // APIサービス基本メソッド
-            LiveChatModelList chatModelList = await youtube.IndexYoutube(param,quantity);
+            LiveChatModelList chatModelList = await youtube.IndexYoutube(param, quantity, service);
 
             if (chatModelList.ChatList == null)
             {
@@ -49,25 +51,32 @@ namespace WebApplication1.Controllers
         }
 
         /// <summary>
-        /// コメント検索結果画面
+        /// コメント検索画面
         /// </summary>
         /// <returns></returns>
-        public ActionResult CommentResult(string param)
+        public ActionResult Search()
         {
-            ViewBag.Message = "コメント検索結果";
-            LiveChatModelList modelList = new LiveChatModelList();
+            return View();
+        }
 
-            List<LiveChatModel> resultList = new List<LiveChatModel>();
+        /// <summary>
+        /// コメント結果
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task <ActionResult> SearchResult(string param)
+        {
+            // サービス識別子
+            string service = "Search";
             
-            foreach (LiveChatModel model in modelList.ChatList)
-            {
-                if (model.DspMessage.Contains(param))
-                {
-                    resultList.Add(model);
-                }
-                
-            }
-            return View(resultList);
+            // YoutubeAPI共通
+            YoutubeAPI youtubeAPI = new YoutubeAPI();
+
+            // APIサービス基本メソッド
+            LiveChatModelList commentModelList = await youtubeAPI.IndexYoutube(param, null, service);
+
+            return View(commentModelList);
         }
 
         /// <summary>

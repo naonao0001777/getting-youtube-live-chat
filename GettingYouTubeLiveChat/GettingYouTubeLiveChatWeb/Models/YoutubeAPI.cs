@@ -42,7 +42,9 @@ namespace WebApplication1.Models
         /// </summary>
         private const string API_KEY = "AIzaSyARlEuRMw7DIRcgpuC-18TRTHqcwCxTaNc";
 
-        public async Task<LiveChatModelList> IndexYoutube(string param, string quantity)
+        //private const string YOUTUBE_DATA_V3_API_KEY = "AIzaSyDT5srhX3CZp4-LttPba2XbjbcVToT1ENE";
+
+        public async Task<LiveChatModelList> IndexYoutube(string param, string quantity, string service)
         {
             LiveChatModelList lcmL = new LiveChatModelList();
             try
@@ -53,11 +55,23 @@ namespace WebApplication1.Models
                     ApiKey = API_KEY
                 });
 
-                // YoutubeLiveの特殊IDを取得する
-                string liveChatId = GetLiveChatID(param, youtubeService);
+                // YoutubeAPIサービスを処理分け
+                if (service == "Live")
+                {
+                    // YoutubeLiveの特殊IDを取得する
+                    string liveChatId = GetLiveChatID(param, youtubeService);
 
-                // 取得したメッセージを返す
-                lcmL = await GetLiveChatMessage(liveChatId, youtubeService, null, quantity);
+                    // 取得したメッセージを返す
+                    lcmL = await GetLiveChatMessage(liveChatId, youtubeService, null, quantity);
+                }
+                else if (service == "Search")
+                {
+                    lcmL = await CommentSearch(param, youtubeService, "");
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception e)
             {
@@ -110,15 +124,15 @@ namespace WebApplication1.Models
 
             // LiveChatMessageトークンを取得する
             var liveChatRequest = youtubeService.LiveChatMessages.List(liveChatId, "snippet,authorDetails");
-            
-            maxCountCreatePageToken = int.Parse(quantity)/75;
+
+            maxCountCreatePageToken = int.Parse(quantity) / 75;
 
             // 最終ページトークンまで再帰的な取得をする
             for (int i = 0; i < maxCountCreatePageToken; i++)
             {
                 // 次回ページトークン
                 liveChatRequest.PageToken = nextPageToken_;
-                
+
                 // リクエストする
                 liveChatResponse = liveChatRequest.Execute();
 
@@ -138,7 +152,7 @@ namespace WebApplication1.Models
                         lcInfo.ChannelUrl = liveChat.AuthorDetails.ChannelUrl;
                         lcInfo.ChatDateTime = liveChat.Snippet.PublishedAt;
                         lcInfo.ProfileImageUrl = liveChat.AuthorDetails.ProfileImageUrl;
-                        
+
                         instantList.Add(lcInfo);
 
                     }
@@ -161,5 +175,121 @@ namespace WebApplication1.Models
 
         }
 
+        /// <summary>
+        /// Youtubeの投稿動画コメを取得する
+        /// </summary>
+        /// <returns></returns>
+        public async Task<LiveChatModelList> CommentSearch(string param_videoId, YouTubeService youtubeService, string nextPageToken)
+        {
+            // コメントを入れるmodelリスト
+            LiveChatModelList commentListModel = new LiveChatModelList();
+
+            //// 返信コメントを入れるmodelリスト
+            LiveChatModelList replyCommentListModel = new LiveChatModelList();
+
+            //// 返信コメント一時退避リスト
+            List<LiveChatModel> instantReply = new List<LiveChatModel>();
+
+            // 一時的なリスト
+            List<LiveChatModel> instantList = new List<LiveChatModel>();
+
+            // 動画コメントをリクエストする
+            var request = youtubeService.CommentThreads.List("snippet");
+            
+
+            while (true)
+            {
+                request.VideoId = param_videoId;
+                request.TextFormat = CommentThreadsResource.ListRequest.TextFormatEnum.PlainText;
+                request.MaxResults = 100;
+                request.PageToken = nextPageToken;
+
+                var response = await request.ExecuteAsync();
+
+                foreach (var item in response.Items)
+                {
+                    LiveChatModel model = new LiveChatModel();
+
+                    model.DspName = item.Snippet.TopLevelComment.Snippet.AuthorDisplayName;
+                    model.DspMessage = item.Snippet.TopLevelComment.Snippet.TextDisplay;
+                    model.ChannelUrl = item.Snippet.TopLevelComment.Snippet.AuthorChannelUrl;
+                    model.ProfileImageUrl = item.Snippet.TopLevelComment.Snippet.AuthorProfileImageUrl;
+                    model.LikeCount = item.Snippet.TopLevelComment.Snippet.LikeCount;
+                    model.Id = item.Snippet.TopLevelComment.Id;
+                    model.IsChild = false;
+
+                    instantList.Add(model);
+
+                    if (item.Snippet.TotalReplyCount > 0)
+                    {
+                        await ReplyCommentSearch(param_videoId, youtubeService, model.Id, instantList);
+                    }
+                }
+                commentListModel.ChatList = instantList;
+
+                nextPageToken = response.NextPageToken;
+
+                if (nextPageToken == null)
+                {
+                    break;
+                }
+            }
+
+            return commentListModel;
+        }
+
+        /// <summary>
+        /// 返信コメントをとる
+        /// </summary>
+        /// <param name="param_videoId"></param>
+        /// <param name="youtubeService"></param>
+        /// <param name="nextPageToken"></param>
+        /// <returns></returns>
+        public async Task ReplyCommentSearch(string param_videoId, YouTubeService youtubeService, string parentId, List<LiveChatModel> instantList)
+        {
+            string nextPageToken = "";
+
+            // コメントを入れるmodelリスト
+            LiveChatModelList commentListModel = new LiveChatModelList();
+
+            // 一時的なリスト
+            List<LiveChatModel> replyInstantModel = new List<LiveChatModel>();
+
+            // 動画コメントをリクエストする
+            var request = youtubeService.Comments.List("snippet");
+
+            while (true)
+            {
+                request.TextFormat = CommentsResource.ListRequest.TextFormatEnum.PlainText;
+                request.MaxResults = 100;
+                request.ParentId = parentId;
+                request.PageToken = nextPageToken;
+                
+                var response = await request.ExecuteAsync();
+
+                foreach (var item in response.Items)
+                {
+                    LiveChatModel model = new LiveChatModel();
+
+                    model.DspName = item.Snippet.AuthorDisplayName;
+                    model.DspMessage = item.Snippet.TextDisplay;
+                    model.ChannelUrl = item.Snippet.AuthorChannelUrl;
+                    model.ProfileImageUrl = item.Snippet.AuthorProfileImageUrl;
+                    model.LikeCount = item.Snippet.LikeCount;
+                    model.Id = item.Id;
+                    model.ParentId = parentId;
+                    model.IsChild = true;
+                    string a = item.Snippet.ViewerRating;
+                    instantList.Add(model);
+                }
+
+                nextPageToken = response.NextPageToken;
+
+                if (nextPageToken == null)
+                {
+                    break;
+                }
+            }
+        }
     }
 }

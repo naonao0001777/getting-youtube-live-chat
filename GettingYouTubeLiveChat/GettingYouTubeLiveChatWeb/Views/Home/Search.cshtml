@@ -1,6 +1,9 @@
-﻿@{
-    ViewBag.Title = "Home";
+﻿@model WebApplication1.Models.LiveChatModelList
+
+@{
+    ViewBag.Title = "Search";
 }
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,34 +34,19 @@
     <br /><br /><br />
     <div class="center-block font-google">
         <center>
-            <h1 style="font-size:70px">YouTubeLiveのコメントを取得する <br /> 解析サイト</h1>
+            <h1 style="font-size:70px">YouTubeのコメントを取得する</h1>
         </center>
     </div>
     <br><br><br><br>
     <div class="center-block">
-        @*@using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
-            {*@
-        <form method="post" action="/Home/Result">
-            <center>
-                <div class="center-block">
-                    <h4>取得数</h4>
-                    <span>
-                        @*@Html.Hidden("quantity", "")*@
-                        <input type="range" id="range" value="750" name="quantity" min="0" max="1500" step="75">
-                        <span id="quant">750</span>
-                    </span>
-                </div>
-            </center>
-            <br /><br />
+        <form method="post" action="/Home/SearchResult">
             <div class="text-center">
                 <span>
-                    @*@Html.TextBox("param", "", new { maxlength = 25 })*@
                     <input type="text" maxlength="25" name="param" />
                     <input type="submit" value="コメントを取得" id="cmtButton" />
                 </span>
             </div>
         </form>
-        @*}*@
     </div>
     <div class="loading hide"></div>
 </body>
