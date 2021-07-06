@@ -3,7 +3,7 @@
 # TL;DR
 YouTubeのライブ配信(アーカイブを除く)で流れたチャットを70行分、ユーザー名と、コメントを取得する基本的なシステム。.NETアプリケーション  
 
-[YouTubeライブのコメントを取得するWebサイトへ移動](https://youtube-live-chat-getter.azurewebsites.net)
+[https://youtube-live-chat-getter.azurewebsites.net](https://youtube-live-chat-getter.azurewebsites.net)
 
 # DEMO
 [![youtubecomment_20210703](https://user-images.githubusercontent.com/46675984/124333733-13650480-dbd0-11eb-8a29-b30718afd31f.gif)](https://youtube-live-chat-getter.azurewebsites.net/)
