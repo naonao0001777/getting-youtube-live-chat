@@ -39,14 +39,96 @@
     </div>
     <br><br><br><br>
     <div class="center-block">
-        <form method="post" action="/Home/SearchResult">
+        <form method="post" action="/Home/Search">
             <div class="text-center">
                 <span>
-                    <input type="text" maxlength="25" name="param" />
-                    <input type="submit" value="コメントを取得" id="cmtButton" />
+                    <input type="text" maxlength="25" name="param" value="@ViewData["SEARCH_ID"]"/>
+                    <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px;" />
                 </span>
             </div>
         </form>
+        <br><br><br><br>
+        @if (ViewData["display_mode"].ToString() == "POST")
+        {
+            <div class="display_mode">
+                <div>
+                    <span>テーブルを検索</span>
+                </div>
+                <div>
+                    <span>
+                        <input type="text" id="searchTxt" placeholder="キーワード入力" />
+                    </span>
+                    <span>
+                        <input type="button" id="searchUser" value="ユーザー検索" />
+                    </span>
+                    @*<span>
+                            <input type="button" id="searchParentChild" value="返信ユーザーごと検索" />
+                        </span>*@
+                    <span>
+                        <input type="button" id="searchComment" value="コメント検索" />
+                    </span>
+                    <span>
+                        <input type="button" id="clear" value="クリア" />
+                    </span>
+                </div>
+                <div class="table-responsive">
+                    <table border="1" class="table table-striped table-condensed" id="table">
+                        <thead>
+                            <tr class="bg-primary">
+                                <th>#No.</th>
+                                <th>ユーザ名</th>
+                                <th>いいね数</th>
+                                <th>コメント</th>
+                            </tr>
+                        </thead>
+                        @try
+                        {
+                            if (Model.ChatList != null)
+                            {
+                                for (int i = 0; i < Model.ChatList.Count(); i++)
+                                {
+                                    int count = i + 1;
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(model => count)
+                                            </td>
+                                            <td class="userThumbnail">
+                                                @if (Model.ChatList[i].IsChild)
+                                                {
+                                                    <p id="commentId" style="display:none">@Model.ChatList[i].ParentId</p>
+                                                    @:<font style="color:chartreuse">(返信)</font>
+                                                    <a href="@Html.DisplayFor(model => Model.ChatList[i].ChannelUrl)" target="_blank" rel="noopener noreferrer"><img src="@Html.DisplayFor(model => Model.ChatList[i].ProfileImageUrl)" width="30" height="30" alt="Usersthumbnail"></a>
+                                                    @Html.DisplayFor(model => Model.ChatList[i].DspName)
+                                                }
+                                                else
+                                                {
+                                                    <p id="commentId" style="display:none">@Model.ChatList[i].Id</p>
+                                                    <a href="@Html.DisplayFor(model => Model.ChatList[i].ChannelUrl)" target="_blank" rel="noopener noreferrer"><img src="@Html.DisplayFor(model => Model.ChatList[i].ProfileImageUrl)" width="30" height="30" alt="Usersthumbnail"></a>
+                                                    @Html.DisplayFor(model => Model.ChatList[i].DspName)
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => model.ChatList[i].LikeCount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => Model.ChatList[i].DspMessage)
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.Write(e.Message);
+                        }
+
+
+                    </table>
+                </div>
+            </div>
+        }
     </div>
     <div class="loading hide"></div>
 </body>
@@ -64,16 +146,44 @@
             }).done(function () {
                 $('.loading').addClass('hide');
             })
-        }
-        )
+        })
     })
-    // レンジバー
-    var elem = document.getElementById('range');
-    var target = document.getElementById('quant');
-    var rangeValue = function (elem, target) {
-        return function (evt) {
-            target.innerHTML = range.value;
-        }
-    }
-    elem.addEventListener('input', rangeValue(elem, target));
+    // テーブル内を検索する
+    $(function () {
+        $('#searchUser').bind('click', function () {
+            var re = new RegExp($('#searchTxt').val());
+            $('#table tbody tr').each(function () {
+                var txt = $(this).find("td:eq(1)").text();
+                if (txt.match(re) != null) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            })
+        })
+
+        $('#searchComment').bind('click', function () {
+            var re = new RegExp($('#searchTxt').val());
+            $('#table tbody tr').each(function () {
+                var txt = $(this).find("td:eq(3)").text();
+                if (txt.match(re) != null) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            })
+        })
+
+        $('#clear').bind('click', function () {
+            $('#table tbody tr').each(function () {
+                $(this).show();
+            })
+        })
+    })
+
+    $(function () {
+        $('#clear').click(function () {
+            $(document).find('#searchTxt').val('');
+        });
+    });
 </script>
