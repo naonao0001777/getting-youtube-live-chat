@@ -13,7 +13,7 @@ YouTubeIDとは、` https://www.youtube.com/watch?v=UAAWEX6g590`の`UAAWEX6g590`
 1. 検索結果が表示される。
 
 # [追加] 動画コメント欄も取得できるよ
-[![youtubecomment_20210709](https://user-images.githubusercontent.com/46675984/124998309-26238180-e087-11eb-9e1f-a0a37da2767c.gif)](https://youtube-live-chat-getter.azurewebsites.net/)
+[![youtubecomment_20210709](https://user-images.githubusercontent.com/46675984/124998309-26238180-e087-11eb-9e1f-a0a37da2767c.gif)](https://youtube-live-chat-getter.azurewebsites.net/Home/Search)
 
 # 作成者
 Twitter : [naonao0001777](https://twitter.com/salty_special)
