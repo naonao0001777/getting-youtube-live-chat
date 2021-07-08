@@ -28,6 +28,21 @@
             background-size: 100px 100px;
             z-index: 9999;
         }
+        .search_frame {
+            position: relative;
+            display: inline-block;
+        }
+        .search_frame .search_clear {
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            right: 2px;
+            top: 5px;
+            background-image: url(https://user-images.githubusercontent.com/46675984/124994073-400d9600-e080-11eb-937a-45449a26c712.png);
+            background-repeat: no-repeat;
+            background-position: right;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -41,10 +56,11 @@
     <div class="center-block">
         <form method="post" action="/Home/Search">
             <div class="text-center">
-                <span>
-                    <input type="text" maxlength="25" name="param" value="@ViewData["SEARCH_ID"]"/>
-                    <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px;" />
-                </span>
+                <div class="search_frame">
+                    <input type="text" maxlength="25" name="param" value="@ViewData["SEARCH_ID"]" id="searchtext" />
+                    <div class="search_clear" onclick="ClearButton_click()"></div>
+                </div>
+                <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px;" />
             </div>
         </form>
         <br><br><br><br>
@@ -148,6 +164,13 @@
             })
         })
     })
+
+    $(function (){
+        $('.search_clear').click(function () {
+            $(document).find('#searchtext').val('');
+        });
+    })
+
     // テーブル内を検索する
     $(function () {
         $('#searchUser').bind('click', function () {

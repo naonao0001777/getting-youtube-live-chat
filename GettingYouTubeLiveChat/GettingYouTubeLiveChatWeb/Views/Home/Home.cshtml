@@ -36,14 +36,11 @@
     </div>
     <br><br><br><br>
     <div class="center-block">
-        @*@using (Html.BeginForm("Result", "Home", null, FormMethod.Post))
-            {*@
         <form method="post" action="/Home/Result">
             <center>
                 <div class="center-block">
                     <h4>取得数</h4>
                     <span>
-                        @*@Html.Hidden("quantity", "")*@
                         <input type="range" id="range" value="750" name="quantity" min="0" max="1500" step="75">
                         <span id="quant">750</span>
                     </span>
@@ -52,13 +49,11 @@
             <br /><br />
             <div class="text-center">
                 <span>
-                    @*@Html.TextBox("param", "", new { maxlength = 25 })*@
                     <input type="text" maxlength="25" name="param" />
                     <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px;" />
                 </span>
             </div>
         </form>
-        @*}*@
     </div>
     <div class="loading hide"></div>
 </body>
