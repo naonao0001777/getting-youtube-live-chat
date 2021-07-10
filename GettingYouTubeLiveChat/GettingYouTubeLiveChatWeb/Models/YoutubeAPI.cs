@@ -7,6 +7,7 @@ using Google.Apis.Services;
 using Google.Apis.Util;
 using Google.Apis.YouTube.v3;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace WebApplication1.Models
 {
@@ -40,9 +41,7 @@ namespace WebApplication1.Models
         /// <summary>
         /// APIキー
         /// </summary>
-        private const string API_KEY = "AIzaSyARlEuRMw7DIRcgpuC-18TRTHqcwCxTaNc";
-
-        //private const string YOUTUBE_DATA_V3_API_KEY = "AIzaSyDT5srhX3CZp4-LttPba2XbjbcVToT1ENE";
+        private string API_KEY = ConfigurationManager.AppSettings["YouTubeAPIKey"];
 
         public async Task<LiveChatModelList> IndexYoutube(string param, string quantity, string service)
         {
