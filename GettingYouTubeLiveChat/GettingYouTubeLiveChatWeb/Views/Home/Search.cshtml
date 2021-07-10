@@ -57,7 +57,7 @@
         <form method="post" action="/Home/Search">
             <div class="text-center">
                 <div class="search_frame">
-                    <input type="text" maxlength="25" name="param" value="@ViewData["SEARCH_ID"]" id="searchtext" />
+                    <input type="text" maxlength="25" name="param" value="@ViewData["SEARCH_ID"]" id="searchtext" placeholder="動画IDを入れる" />
                     <div class="search_clear" onclick="ClearButton_click()"></div>
                 </div>
                 <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px;" />
