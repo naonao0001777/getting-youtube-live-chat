@@ -5,7 +5,7 @@ YouTubeのライブ配信(アーカイブを除く)あるいは普通の投稿�
 
 [https://youtube-live-chat-getter.azurewebsites.net/](https://youtube-live-chat-getter.azurewebsites.net/)
 
-[![youtubecomment_20210703](https://user-images.githubusercontent.com/46675984/124333733-13650480-dbd0-11eb-8a29-b30718afd31f.gif)](https://youtube-live-chat-getter.azurewebsites.net/)
+[![youtubecomment_20210710](https://user-images.githubusercontent.com/46675984/125156529-d5a04700-e1a0-11eb-9659-09ce4cba8ff8.gif)](https://youtube-live-chat-getter.azurewebsites.net/)
 
 # このサイトの使用方法
 1. 検索テキストにライブ配信をしているチャンネルのYouTubeIDを入力して検索ボタンを押下する。  
