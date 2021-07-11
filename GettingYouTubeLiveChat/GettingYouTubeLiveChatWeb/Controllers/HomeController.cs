@@ -101,7 +101,7 @@ namespace WebApplication1.Controllers
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> CsvDownload(string csvbutton, string param)
+        public async Task<ActionResult> CsvDownload(string csvbutton, string param, HttpResponseBase response)
         {
             // 再表示
             string display_mode = "POST";
@@ -116,7 +116,7 @@ namespace WebApplication1.Controllers
 
             // サービス識別子
             string service = "Search";
-            
+
             // YoutubeAPI共通
             YoutubeAPI youtubeAPI = new YoutubeAPI();
 
@@ -124,9 +124,9 @@ namespace WebApplication1.Controllers
             LiveChatModelList commentModelList = await youtubeAPI.IndexYoutube(param, null, service);
 
             // CSV出力
-            youtubeAPI.CsvDownloader(param, commentModelList);
+            youtubeAPI.CsvDownloader(param, commentModelList, response);
 
-            return  View("Search",commentModelList);
+            return View("Search", commentModelList);
         }
 
         /// <summary>

@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 using System.Configuration;
 using System.IO;
 using System.Text;
+using System.Web.UI;
 
 namespace WebApplication1.Models
 {
-    public class YoutubeAPI
+    public class YoutubeAPI :System.Web.UI.Page
     {
         /// <summary>
         ///  メッセージ
@@ -293,7 +294,7 @@ namespace WebApplication1.Models
             }
         }
 
-        public void CsvDownloader(string streamId, LiveChatModelList commentList)
+        public void CsvDownloader(string streamId, LiveChatModelList commentList ,HttpResponseBase response)
         {
             try
             {
@@ -306,28 +307,52 @@ namespace WebApplication1.Models
 
                 string date = "";
                 date = DateTime.Now.ToString("yyyymmddHHmmss");
+                string fileName = "csvdownload_" + streamId + "_" + date + ".csv";
+                response.Clear();
+                response.ContentType = "application/octet-stream";
+                response.HeaderEncoding = System.Text.Encoding.GetEncoding("SHIFT-JIS");
+                response.AddHeader("Content-Disposition", "attachment; filename="+ fileName);
+                
+                int count = 1;
 
-                using (StreamWriter sw = new StreamWriter(csvDirectoryPath + "\\" + "csvdownload_" + streamId + "_" + date + ".csv", false, Encoding.UTF8))
+                response.Write(string.Format("{0},{1},{2},{3},{4}", "#No.", "ユーザ名", "チャンネルID", "いいね数", "コメント"));
+
+                foreach (var comment in commentList.ChatList)
                 {
-                    int count = 1;
+                    string displayComment = comment.DspMessage.Replace("\r", "").Replace("\n", "");
 
-                    sw.WriteLine(string.Format("{0},{1},{2},{3},{4}", "#No.", "ユーザ名", "チャンネルID", "いいね数", "コメント"));
-
-                    foreach (var comment in commentList.ChatList)
+                    if (comment.IsChild)
                     {
-                        string displayComment = comment.DspMessage.Replace("\r", "").Replace("\n", "");
-
-                        if (comment.IsChild)
-                        {
-                            sw.WriteLine(string.Format("{0},{1},{2},{3},{4}", count, "[返信] " + comment.DspName, comment.ChannelUrl, comment.LikeCount, displayComment));
-                        }
-                        else
-                        {
-                            sw.WriteLine(string.Format("{0},{1},{2},{3},{4}", count, comment.DspName, comment.ChannelUrl, comment.LikeCount, displayComment));
-                        }
-                        count++;
+                        response.Write(string.Format("{0},{1},{2},{3},{4}", count, "[返信] " + comment.DspName, comment.ChannelUrl, comment.LikeCount, displayComment));
                     }
+                    else
+                    {
+                        response.Write(string.Format("{0},{1},{2},{3},{4}", count, comment.DspName, comment.ChannelUrl, comment.LikeCount, displayComment));
+                    }
+                    count++;
                 }
+                response.End();
+                //using (StreamWriter sw = new StreamWriter(csvDirectoryPath + "\\" + "csvdownload_" + streamId + "_" + date + ".csv", false, Encoding.UTF8))
+                //{
+                //    int count = 1;
+                    
+                //    sw.WriteLine(string.Format("{0},{1},{2},{3},{4}", "#No.", "ユーザ名", "チャンネルID", "いいね数", "コメント"));
+                    
+                //    foreach (var comment in commentList.ChatList)
+                //    {
+                //        string displayComment = comment.DspMessage.Replace("\r", "").Replace("\n", "");
+
+                //        if (comment.IsChild)
+                //        {
+                //            sw.WriteLine(string.Format("{0},{1},{2},{3},{4}", count, "[返信] " + comment.DspName, comment.ChannelUrl, comment.LikeCount, displayComment));
+                //        }
+                //        else
+                //        {
+                //            sw.WriteLine(string.Format("{0},{1},{2},{3},{4}", count, comment.DspName, comment.ChannelUrl, comment.LikeCount, displayComment));
+                //        }
+                //        count++;
+                //    }
+                //}
             }
             catch (Exception e)
             {
