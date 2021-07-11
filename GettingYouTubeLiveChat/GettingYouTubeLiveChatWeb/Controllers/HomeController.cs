@@ -96,13 +96,24 @@ namespace WebApplication1.Controllers
         }
 
         /// <summary>
-        /// コメント結果
+        /// CSVダウンロード
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task <ActionResult> SearchResult(string param)
+        public async Task<ActionResult> CsvDownload(string csvbutton, string param)
         {
+            // 再表示
+            string display_mode = "POST";
+
+            if (string.IsNullOrEmpty(param))
+            {
+                display_mode = "INITIAL";
+            }
+
+            ViewData["DISPLAY_MODE"] = display_mode;
+            ViewData["SEARCH_ID"] = param;
+
             // サービス識別子
             string service = "Search";
             
@@ -112,7 +123,10 @@ namespace WebApplication1.Controllers
             // APIサービス基本メソッド
             LiveChatModelList commentModelList = await youtubeAPI.IndexYoutube(param, null, service);
 
-            return View(commentModelList);
+            // CSV出力
+            youtubeAPI.CsvDownloader(param, commentModelList);
+
+            return  View("Search",commentModelList);
         }
 
         /// <summary>

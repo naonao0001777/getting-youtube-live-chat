@@ -28,20 +28,30 @@
             background-size: 100px 100px;
             z-index: 9999;
         }
+
         .search_frame {
             position: relative;
             display: inline-block;
         }
-        .search_frame .search_clear {
-            width: 16px;
-            height: 16px;
-            position: absolute;
-            right: 2px;
-            top: 5px;
-            background-image: url(https://user-images.githubusercontent.com/46675984/124994073-400d9600-e080-11eb-937a-45449a26c712.png);
-            background-repeat: no-repeat;
-            background-position: right;
-            cursor: pointer;
+
+            .search_frame .search_clear {
+                width: 16px;
+                height: 16px;
+                position: absolute;
+                right: 2px;
+                top: 5px;
+                background-image: url(https://user-images.githubusercontent.com/46675984/124994073-400d9600-e080-11eb-937a-45449a26c712.png);
+                background-repeat: no-repeat;
+                background-position: right;
+                cursor: pointer;
+            }
+
+        .table-top-bar {
+            display: flex;
+        }
+
+        .csv-download-button {
+            margin-left: auto;
         }
     </style>
 </head>
@@ -49,7 +59,7 @@
     <br /><br /><br />
     <div class="center-block font-google">
         <center>
-            <h1 style="font-size:70px">YouTube<br/>動画のコメント欄を取得する</h1>
+            <h1 style="font-size:70px">YouTube<br />動画のコメント欄を取得する</h1>
         </center>
     </div>
     <br><br><br><br>
@@ -70,7 +80,7 @@
                 <div>
                     <span>テーブルを検索</span>
                 </div>
-                <div>
+                <div class="table-top-bar">
                     <span>
                         <input type="text" id="searchTxt" placeholder="キーワード入力" />
                     </span>
@@ -86,6 +96,10 @@
                     <span>
                         <input type="button" id="clear" value="クリア" />
                     </span>
+                    <form class="csv-download-button" method="post" action="/Home/CsvDownload">
+                        <input type="hidden" name="param" value="@ViewData["SEARCH_ID"]" />
+                        <input type="submit" id="csvdownload" name="csvbutton" value="CSV出力" />
+                    </form>
                 </div>
                 <div class="table-responsive">
                     <table border="1" class="table table-striped table-condensed" id="table">
@@ -165,7 +179,22 @@
         })
     })
 
-    $(function (){
+    // ローディング
+    $(function () {
+        $('#csvdownload').on('click', function () {
+            $.ajax({
+                url: '../../Controller/HomeController.cs',
+                type: 'POST',
+                beforeSend: function () {
+                    $('.loading').removeClass('hide');
+                }
+            }).done(function () {
+                $('.loading').addClass('hide');
+            })
+        })
+    })
+
+    $(function () {
         $('.search_clear').click(function () {
             $(document).find('#searchtext').val('');
         });
