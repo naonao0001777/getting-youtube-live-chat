@@ -17,6 +17,10 @@ namespace WebApplication1.Models
 
         public DateTime? ChatDateTime { get; set; }
 
+        public DateTime? CommentDateRaw { get; set; }
+
+        public bool IsEdited { get; set; }
+
         public long? LikeCount { get; set; }
 
         public string ParentId { get; set; }

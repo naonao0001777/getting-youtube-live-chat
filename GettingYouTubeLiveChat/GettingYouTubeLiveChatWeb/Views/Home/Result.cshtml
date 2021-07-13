@@ -57,6 +57,7 @@
     </div>
     <br>
     <div>
+        <span>コメント: @Model.ChatList.Count 件</span><br />
         <span>テーブルを検索</span>
     </div>
     <div>
@@ -83,7 +84,6 @@
                 <thead>
                     <tr class="bg-primary">
                         <th>#No.</th>
-                        <th>投稿した時刻</th>
                         <th>ユーザ名</th>
                         <th>コメント</th>
                     </tr>
@@ -97,14 +97,11 @@
                             <td>
                                 @Html.DisplayFor(model => count)
                             </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.ChatList[i].ChatDateTime)
-                            </td>
                             <td class="userThumbnail">
                                 <a href="@Html.DisplayFor(model => Model.ChatList[i].ChannelUrl)" target="_blank" rel="noopener noreferrer"><img src="@Html.DisplayFor(model => Model.ChatList[i].ProfileImageUrl)" width="30" height="30" alt="Usersthumbnail"></a>
                                 @Html.DisplayFor(model => Model.ChatList[i].DspName)
                             </td>
-                            <td>
+                            <td data-toggle="tooltip" data-placement="top" title="@Model.ChatList[i].ChatDateTime">
                                 @Html.DisplayFor(model => Model.ChatList[i].DspMessage)
                             </td>
                         </tr>

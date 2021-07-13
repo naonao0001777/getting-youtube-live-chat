@@ -198,6 +198,7 @@ namespace WebApplication1.Models
             // 動画コメントをリクエストする
             var request = youtubeService.CommentThreads.List("snippet");
 
+            // コメント数をカウントする
 
             while (true)
             {
@@ -219,6 +220,8 @@ namespace WebApplication1.Models
                     model.LikeCount = item.Snippet.TopLevelComment.Snippet.LikeCount;
                     model.Id = item.Snippet.TopLevelComment.Id;
                     model.IsChild = false;
+                    model.CommentDateRaw = DateTime.Parse(item.Snippet.TopLevelComment.Snippet.PublishedAtRaw);
+                    model.ChatDateTime = item.Snippet.TopLevelComment.Snippet.PublishedAt;
 
                     instantList.Add(model);
 
@@ -282,6 +285,9 @@ namespace WebApplication1.Models
                     model.ParentId = parentId;
                     model.IsChild = true;
                     string a = item.Snippet.ViewerRating;
+                    model.CommentDateRaw = DateTime.Parse(item.Snippet.PublishedAtRaw); 
+                    model.ChatDateTime = item.Snippet.PublishedAt;
+
                     instantList.Add(model);
                 }
 
