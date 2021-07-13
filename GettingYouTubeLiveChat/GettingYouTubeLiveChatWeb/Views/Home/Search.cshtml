@@ -70,7 +70,7 @@
                     <input type="text" maxlength="25" name="param" value="@ViewData["SEARCH_ID"]" id="searchtext" placeholder="動画IDを入れる" />
                     <div class="search_clear" onclick="ClearButton_click()"></div>
                 </div>
-                <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px;" />
+                <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px; color: #668ad8;" />
             </div>
         </form>
         <br><br><br><br>
@@ -97,9 +97,9 @@
                         <input type="button" id="clear" value="クリア" />
                     </span>
                     @*<form class="csv-download-button" method="post" action="/Home/CsvDownload">
-                        <input type="hidden" name="param" value="@ViewData["SEARCH_ID"]" />
-                        <input type="submit" id="csvdownload" name="csvbutton" value="CSV出力" />
-                    </form>*@
+                            <input type="hidden" name="param" value="@ViewData["SEARCH_ID"]" />
+                            <input type="submit" id="csvdownload" name="csvbutton" value="CSV出力" />
+                        </form>*@
                 </div>
                 <div class="table-responsive">
                     <table border="1" class="table table-striped table-condensed" id="table">

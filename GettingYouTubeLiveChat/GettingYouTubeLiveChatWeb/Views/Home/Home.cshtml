@@ -25,13 +25,26 @@
             background-size: 100px 100px;
             z-index: 9999;
         }
+
+        #cmtButton {
+            border-radius: 100%;
+            width: 60px;
+            height: 60px;
+            /*display: inline-block;
+            text-decoration: none;*/
+            color: #668ad8;
+            /*border: solid 2px #668ad8;*/
+            text-align: center;
+            /*overflow: hidden;*/
+            /*font-weight: bold;*/
+        }
     </style>
 </head>
 <body>
     <br /><br /><br />
     <div class="center-block font-google">
         <center>
-            <h1 style="font-size:70px">配信中のYouTubeLive<br/>チャット欄を取得する</h1>
+            <h1 style="font-size:70px">配信中のYouTubeLive<br />チャット欄を取得する</h1>
         </center>
     </div>
     <br><br><br><br>
@@ -49,8 +62,8 @@
             <br /><br />
             <div class="text-center">
                 <span>
-                    <input type="text" maxlength="25" name="param" placeholder="動画IDを入れる"/>
-                    <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px;" />
+                    <input type="text" maxlength="25" name="param" placeholder="動画IDを入れる" />
+                    <input type="submit" value="取得" id="cmtButton" />
                 </span>
             </div>
         </form>
