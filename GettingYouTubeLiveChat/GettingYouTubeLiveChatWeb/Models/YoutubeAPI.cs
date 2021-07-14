@@ -300,6 +300,12 @@ namespace WebApplication1.Models
             }
         }
 
+        /// <summary>
+        /// CSVダウンロードをする
+        /// </summary>
+        /// <param name="streamId"></param>
+        /// <param name="commentList"></param>
+        /// <param name="response"></param>
         public void CsvDownloader(string streamId, LiveChatModelList commentList ,HttpResponseBase response)
         {
             try
@@ -364,6 +370,28 @@ namespace WebApplication1.Models
             {
                 Console.Write(e.Message);
             }
+        }
+
+        /// <summary>
+        /// クライアントIPアドレスを取得する
+        /// </summary>
+        public static StringBuilder GetClientIpAddress()
+        {
+            StringBuilder sb = new StringBuilder();
+            
+            string userIp = HttpContext.Current.Request.UserHostAddress;
+            string userHostName = HttpContext.Current.Request.UserHostName;
+            string userAgent = HttpContext.Current.Request.UserAgent;
+            string sessionId = HttpContext.Current.Session.SessionID;
+            string browser = HttpContext.Current.Request.Browser.Browser.ToString();
+
+            sb.AppendLine(userIp);
+            sb.AppendLine(userHostName);
+            sb.AppendLine(userAgent);
+            sb.AppendLine(sessionId);
+            sb.AppendLine(browser);
+
+            return sb;
         }
     }
 }

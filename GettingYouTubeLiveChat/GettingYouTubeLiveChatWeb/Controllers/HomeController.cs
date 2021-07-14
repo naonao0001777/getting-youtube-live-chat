@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using WebApplication1.Models;
+using System.Text;
 
 namespace WebApplication1.Controllers
 {
@@ -136,6 +137,10 @@ namespace WebApplication1.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "このサイトの制作者";
+
+            StringBuilder userInfo = YoutubeAPI.GetClientIpAddress();
+
+            ViewData["USER_INFO"] = userInfo;
 
             return View();
         }
