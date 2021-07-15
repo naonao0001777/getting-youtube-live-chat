@@ -26,11 +26,17 @@ namespace WebApplication1.Controllers
         /// <param name="param"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> Result(string param, string quantity, string count = "0")
+        public async Task<ActionResult> Result(string param, string quantity)
         {
             bool errFlg = false;
 
             string service = "Live";
+
+            // POSTパラメータがない場合は遷移しない
+            if (string.IsNullOrEmpty(param))
+            {
+                return RedirectToAction("Home");
+            }
 
             // YouTubeAPI共通メソッド
             YoutubeAPI youtube = new YoutubeAPI();
@@ -45,9 +51,8 @@ namespace WebApplication1.Controllers
 
             ViewData["PostData"] = param;
             ViewData["PostQuantity"] = quantity;
-
             ViewBag.errFlg = errFlg;
-            ViewBag.count = count;
+
             return View(chatModelList);
         }
 
@@ -79,6 +84,7 @@ namespace WebApplication1.Controllers
             if (string.IsNullOrEmpty(param))
             {
                 display_mode = "INITIAL";
+                return RedirectToAction("Search");
             }
 
             ViewData["DISPLAY_MODE"] = display_mode;
@@ -92,6 +98,9 @@ namespace WebApplication1.Controllers
 
             // APIサービス基本メソッド
             LiveChatModelList commentModelList = await youtubeAPI.IndexYoutube(param, null, service);
+
+            // 動画IDの存在をチェックする
+            ViewData["IS_EXIST_CHANNEL"] = YoutubeAPI.isExistChannelId.ToString();
 
             return View(commentModelList);
         }

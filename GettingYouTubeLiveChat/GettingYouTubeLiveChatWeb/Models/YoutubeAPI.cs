@@ -42,10 +42,22 @@ namespace WebApplication1.Models
         public static int maxCountCreatePageToken = 7;
 
         /// <summary>
+        /// チャンネルの存在可否
+        /// </summary>
+        public static bool isExistChannelId = true;
+
+        /// <summary>
         /// APIキー
         /// </summary>
         private string API_KEY = ConfigurationManager.AppSettings["YouTubeAPIKey"];
 
+        /// <summary>
+        /// YouTubeAPI共通部品
+        /// </summary>
+        /// <param name="param"></param>
+        /// <param name="quantity"></param>
+        /// <param name="service"></param>
+        /// <returns></returns>
         public async Task<LiveChatModelList> IndexYoutube(string param, string quantity, string service)
         {
             LiveChatModelList lcmL = new LiveChatModelList();
@@ -127,6 +139,19 @@ namespace WebApplication1.Models
             // LiveChatMessageトークンを取得する
             var liveChatRequest = youtubeService.LiveChatMessages.List(liveChatId, "snippet,authorDetails");
 
+            // IDのリクエストがとれなかったら処理を終了する
+            if (liveChatRequest.LiveChatId == null)
+            {
+                // チャンネルIDはなし
+                isExistChannelId = false;
+
+                return list;
+            }
+            else
+            {
+                isExistChannelId = true;
+            }
+
             maxCountCreatePageToken = int.Parse(quantity) / 75;
 
             // 最終ページトークンまで再帰的な取得をする
@@ -183,6 +208,9 @@ namespace WebApplication1.Models
         /// <returns></returns>
         public async Task<LiveChatModelList> CommentSearch(string param_videoId, YouTubeService youtubeService, string nextPageToken)
         {
+            // IDのあるないを初期化
+            isExistChannelId = false;
+
             // コメントを入れるmodelリスト
             LiveChatModelList commentListModel = new LiveChatModelList();
 
@@ -199,7 +227,6 @@ namespace WebApplication1.Models
             var request = youtubeService.CommentThreads.List("snippet");
 
             // コメント数をカウントする
-
             while (true)
             {
                 request.VideoId = param_videoId;
@@ -208,6 +235,9 @@ namespace WebApplication1.Models
                 request.PageToken = nextPageToken;
 
                 var response = await request.ExecuteAsync();
+
+                // レスポンスがない場合はここからは処理通らない
+                isExistChannelId = true;
 
                 foreach (var item in response.Items)
                 {
