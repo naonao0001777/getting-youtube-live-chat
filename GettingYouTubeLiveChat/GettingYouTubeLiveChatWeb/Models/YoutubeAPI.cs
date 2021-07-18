@@ -302,31 +302,32 @@ namespace WebApplication1.Models
 
                 var response = await request.ExecuteAsync();
                 var itemList = response.Items.ToList();
-                itemList.Reverse();
-
-                foreach (var item in itemList)
-                {   
-                    LiveChatModel model = new LiveChatModel();
-
-                    model.DspName = item.Snippet.AuthorDisplayName;
-                    model.DspMessage = item.Snippet.TextDisplay;
-                    model.ChannelUrl = item.Snippet.AuthorChannelUrl;
-                    model.ProfileImageUrl = item.Snippet.AuthorProfileImageUrl;
-                    model.LikeCount = item.Snippet.LikeCount;
-                    model.Id = item.Id;
-                    model.ParentId = parentId;
-                    model.IsChild = true;
-                    string a = item.Snippet.ViewerRating;
-                    model.CommentDateRaw = DateTime.Parse(item.Snippet.PublishedAtRaw); 
-                    model.ChatDateTime = item.Snippet.PublishedAt;
-                    
-                    instantList.Add(model);
-                }
 
                 nextPageToken = response.NextPageToken;
 
                 if (nextPageToken == null)
                 {
+                    itemList.Reverse();
+
+                    foreach (var item in itemList)
+                    {
+                        LiveChatModel model = new LiveChatModel();
+
+                        model.DspName = item.Snippet.AuthorDisplayName;
+                        model.DspMessage = item.Snippet.TextDisplay;
+                        model.ChannelUrl = item.Snippet.AuthorChannelUrl;
+                        model.ProfileImageUrl = item.Snippet.AuthorProfileImageUrl;
+                        model.LikeCount = item.Snippet.LikeCount;
+                        model.Id = item.Id;
+                        model.ParentId = parentId;
+                        model.IsChild = true;
+                        string a = item.Snippet.ViewerRating;
+                        model.CommentDateRaw = DateTime.Parse(item.Snippet.PublishedAtRaw);
+                        model.ChatDateTime = item.Snippet.PublishedAt;
+
+                        instantList.Add(model);
+                    }
+
                     break;
                 }
             }
