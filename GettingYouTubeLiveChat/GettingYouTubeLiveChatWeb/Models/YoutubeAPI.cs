@@ -288,7 +288,7 @@ namespace WebApplication1.Models
             LiveChatModelList commentListModel = new LiveChatModelList();
 
             // 一時的なリスト
-            List<LiveChatModel> replyInstantModel = new List<LiveChatModel>();
+            List<Google.Apis.YouTube.v3.Data.Comment> itemList = new List<Google.Apis.YouTube.v3.Data.Comment>();
 
             // 動画コメントをリクエストする
             var request = youtubeService.Comments.List("snippet");
@@ -301,7 +301,7 @@ namespace WebApplication1.Models
                 request.PageToken = nextPageToken;
 
                 var response = await request.ExecuteAsync();
-                var itemList = response.Items.ToList();
+                itemList.AddRange(response.Items.ToList());
 
                 nextPageToken = response.NextPageToken;
 
