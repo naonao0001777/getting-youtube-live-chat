@@ -301,9 +301,11 @@ namespace WebApplication1.Models
                 request.PageToken = nextPageToken;
 
                 var response = await request.ExecuteAsync();
+                var itemList = response.Items.ToList();
+                itemList.Reverse();
 
-                foreach (var item in response.Items)
-                {
+                foreach (var item in itemList)
+                {   
                     LiveChatModel model = new LiveChatModel();
 
                     model.DspName = item.Snippet.AuthorDisplayName;
@@ -317,7 +319,7 @@ namespace WebApplication1.Models
                     string a = item.Snippet.ViewerRating;
                     model.CommentDateRaw = DateTime.Parse(item.Snippet.PublishedAtRaw); 
                     model.ChatDateTime = item.Snippet.PublishedAt;
-
+                    
                     instantList.Add(model);
                 }
 
