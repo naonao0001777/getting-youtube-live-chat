@@ -53,13 +53,22 @@
     <h2>結果</h2>
     <h3>@ViewBag.Message</h3>
 
-    <div>
+    <div class="list-inline">
         @Html.Encode(ViewData["postData"])を検索しました。
         @if (ViewBag.errFlg)
         {
             <div>が、お探しのチャットIDは見つかりませんでした。</div>
             <div>配信中ではないか、もしくは、IDが正しくない可能性があります。</div>
         }
+    </div>
+    <br>
+    <div>
+        <div class="iframe_wrapper">
+            <iframe src="@ViewData["YOUTUBE_STREAM"]" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div>
+            <input type="button" value="" id="deleteFrame" style="border-radius:100%; text-align:center; width:20px;height:20px; color: #668ad8;" />
+        </div>
     </div>
     <br>
     @if (!ViewBag.errFlg)
@@ -184,6 +193,20 @@
         $('#clear').click(function () {
             $(document).find('#searchTxt').val('');
         });
+    });
+
+    var iframeFlag = true;
+    $(function () {
+        $('#deleteFrame').click(function () {
+            if (iframeFlag) {
+                iframeFlag = false;
+                $('.iframe_wrapper').css("display", "none");
+            }
+            else {
+                iframeFlag = true;
+                $('.iframe_wrapper').css("display", "block");
+            }
+        })
     });
             //// デフォルトの設定を変更
             //$.extend($.fn.dataTable.defaults, {

@@ -73,13 +73,22 @@
                 <input type="submit" value="取得" id="cmtButton" style="border-radius:100%; text-align:center; width:60px;height:60px; color: #668ad8;" />
             </div>
         </form>
-        <br><br><br><br>
+        <br>
         <!--POSTの場合の処理-->
         @if (ViewData["display_mode"].ToString() == "POST")
         {
             <!--動画IDがある場合はテーブルを表示-->
             if (bool.Parse(ViewData["IS_EXIST_CHANNEL"].ToString()))
             {
+                <center>
+                    <div class="iframe_wrapper">
+                        <iframe src="@ViewData["YOUTUBE_STREAM"]" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div>
+                        <input type="button" value="" id="deleteFrame" style="border-radius:100%; text-align:center; width:20px;height:20px; color: #668ad8;" />
+                    </div>
+                </center>
+
                 <div class="display_mode">
                     <div>
                         <span>コメント: @Model.ChatList.Count 件</span><br />
@@ -247,5 +256,19 @@
         $('#clear').click(function () {
             $(document).find('#searchTxt').val('');
         });
+    });
+
+    var iframeFlag = true;
+    $(function () {
+        $('#deleteFrame').click(function () {
+            if (iframeFlag) {
+                iframeFlag = false;
+                $('.iframe_wrapper').css("display", "none");
+            }
+            else {
+                iframeFlag = true;
+                $('.iframe_wrapper').css("display", "block");
+            }
+        })
     });
 </script>

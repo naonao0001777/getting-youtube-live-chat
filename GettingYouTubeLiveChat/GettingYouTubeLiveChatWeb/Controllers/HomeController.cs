@@ -52,6 +52,7 @@ namespace WebApplication1.Controllers
             ViewData["PostData"] = param;
             ViewData["PostQuantity"] = quantity;
             ViewBag.errFlg = errFlg;
+            ViewData["YOUTUBE_STREAM"] = "https://www.youtube.com/embed/" + param;
 
             return View(chatModelList);
         }
@@ -89,7 +90,7 @@ namespace WebApplication1.Controllers
 
             ViewData["DISPLAY_MODE"] = display_mode;
             ViewData["SEARCH_ID"] = param;
-
+            ViewData["YOUTUBE_STREAM"] = "https://www.youtube.com/embed/" + param;
             // サービス識別子
             string service = "Search";
 
