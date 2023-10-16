@@ -1,6 +1,5 @@
-# YouTubeのコメントを取得して検索/ソートをするWebサイト
-
 # What is this Web site?
+### YouTubeのコメントを取得して検索/ソートをするWebサイト
 YouTubeのライブ配信(アーカイブを除く)あるいは普通の投稿されている動画で流れたチャットやコメ欄をユーザー名とコメント等を取得するWebシステム。.NETアプリケーションで作成している。
 
 [https://youtube-live-chat-getter.azurewebsites.net/](https://youtube-live-chat-getter.azurewebsites.net/)
