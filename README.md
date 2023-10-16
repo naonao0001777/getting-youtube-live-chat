@@ -14,8 +14,6 @@ YouTubeIDとは、` https://www.youtube.com/watch?v=UAAWEX6g590`の`UAAWEX6g590`
 
 # Option
 [![youtube-comment-getter](https://user-images.githubusercontent.com/46675984/125000192-ce871500-e08a-11eb-86e8-51c8b913a577.png)](https://youtube-live-chat-getter.azurewebsites.net/Home/Search)
-# 作成者
-Twitter : [naonao0001777](https://twitter.com/salty_special)
 
 # Stack
 ##### C# ASP.NET Bootstrap jQuery Azure
